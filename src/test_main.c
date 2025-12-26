@@ -34,8 +34,8 @@ UTEST(Image, Dimensions)
 {
 	image_p img = create_image(640, 480);
 
-	ASSERT_EQ(640, image_width(img));
-	ASSERT_EQ(480, image_height(img));
+	ASSERT_EQ(640u, image_width(img));
+	ASSERT_EQ(480u, image_height(img));
 
 	free_image(img);
 }
