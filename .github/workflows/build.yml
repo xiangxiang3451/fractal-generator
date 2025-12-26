@@ -1,0 +1,48 @@
+name: Build and Generate Fractals
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-fractals:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake build-essential
+    
+    - name: Configure CMake
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release .
+    
+    - name: Build project
+      run: cmake --build build --config Release
+    
+    - name: Run tests
+      run: |
+        cd build
+        if [ -f "./fractal_test" ]; then
+          ./fractal_test
+        fi
+    
+    - name: Generate fractals
+      run: |
+        cd build
+        ./fractal
+        echo "Generated PGM files:"
+        ls -la *.pgm || echo "No PGM files generated"
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: fractals
+        path: build/*.pgm
+        retention-days: 7
