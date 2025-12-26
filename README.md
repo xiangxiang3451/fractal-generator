@@ -1,5 +1,7 @@
 ## Fractal Image Generator
 
+> This project uses [utest.h](https://github.com/sheredom/utest.h) as a Git submodule for unit testing.
+
 A fractal image generator implemented in C, supporting multiple classic fractal algorithms and saving generated images in PGM format.
 
 ```
