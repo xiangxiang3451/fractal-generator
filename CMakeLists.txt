@@ -53,7 +53,7 @@ endif()
 
 # ---- Include directories ----
 target_include_directories(fractal PRIVATE src)
-target_include_directories(fractal_test PRIVATE src YY.utest)
+target_include_directories(fractal_test PRIVATE src ${CMAKE_CURRENT_SOURCE_DIR}/YY.utest)
 
 # ---- Testing ----
 enable_testing()
