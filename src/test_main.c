@@ -142,7 +142,6 @@ UTEST(Fractal, JuliaSetBasic)
 	image_p img2 = create_image(100, 100);
 	mandelbrot_fractal(img2);
 
-	/* Compare center pixel values */
 	pixel_data julia_center = get_pixel(img, 50, 50);
 	pixel_data mandel_center = get_pixel(img2, 50, 50);
 

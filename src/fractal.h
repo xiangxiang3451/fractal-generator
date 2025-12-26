@@ -3,6 +3,11 @@
 
 #include "image.h"
 
+
+/*
+ * Fractal generation functions.
+ */
+
 void empty_fractal(image_p picture);
 void mandelbrot_fractal(image_p picture);
 void sierpinski_fractal(image_p picture);

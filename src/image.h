@@ -5,17 +5,15 @@
 #include <stdint.h>
 #include <stdio.h>
 
-/* 8-bit grayscale pixel */
 typedef uint8_t pixel_data;
 
-/* pixel coordinate / dimension */
 typedef unsigned int pixel_coord;
 
 struct image;
 typedef struct image image_t, * image_p;
 
 /**
- * Create new image (allocated on heap)
+ * Create new image.
  */
 image_p create_image(pixel_coord width, pixel_coord height);
 

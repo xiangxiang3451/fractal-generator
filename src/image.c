@@ -11,6 +11,10 @@ struct image
 	pixel_data* data;
 };
 
+/*
+ * Allocate a new image buffer with given width and height.
+ * Returns pointer to allocated image.
+ */
 image_p create_image(pixel_coord width, pixel_coord height)
 {
 	assert(width > 0 && height > 0);
@@ -27,18 +31,27 @@ image_p create_image(pixel_coord width, pixel_coord height)
 	return img;
 }
 
+/*
+ * Clear the image buffer.
+ */
 void clear_image(image_p picture)
 {
 	memset(picture->data, 0,
 		sizeof(pixel_data) * picture->width * picture->height);
 }
 
+/*
+ * Fill the image buffer with random pixel values.
+ */
 void fill_random(image_p picture)
 {
 	for (pixel_coord i = 0; i < picture->width * picture->height; ++i)
 		picture->data[i] = (pixel_data)(rand() % 256);
 }
 
+/*
+ * Free the allocated image buffer.
+ */
 void free_image(image_p picture)
 {
 	assert(picture != NULL);
@@ -46,18 +59,30 @@ void free_image(image_p picture)
 	free(picture);
 }
 
-/* --- Accessors --- */
+/* Accessors */
+
+/*
+ * Return image width.
+ */
 pixel_coord image_width(image_p picture)
 {
 	return picture->width;
 }
 
+/*
+ * Return image height.
+ */
 pixel_coord image_height(image_p picture)
 {
 	return picture->height;
 }
 
-/* --- ASCII PGM P2 (debug) --- */
+/* ASCII PGM P2 output (debug) */
+
+/*
+ * Save image as ASCII PGM file (P2 format).
+ *
+ */
 int save_pgm(image_p picture, const char* filename)
 {
 	FILE* fp = fopen(filename, "w");
@@ -73,7 +98,12 @@ int save_pgm(image_p picture, const char* filename)
 	return 0;
 }
 
-/* --- Binary PGM P5 --- */
+/* Binary PGM P5 output */
+
+/*
+ * Save image as binary PGM file.
+ *
+ */
 int save_pgm_binary(image_p picture, const char* filename)
 {
 	FILE* fp = fopen(filename, "wb");
@@ -91,13 +121,20 @@ int save_pgm_binary(image_p picture, const char* filename)
 	return 0;
 }
 
-/* --- Pixel API --- */
+/* Pixel API */
+
+/*
+ * Set the pixel at (x, y) to the given color.
+ */
 void set_pixel(image_p picture, pixel_coord x, pixel_coord y, pixel_data color)
 {
 	assert(x < picture->width && y < picture->height);
 	picture->data[y * picture->width + x] = color;
 }
 
+/*
+ * Return the pixel value at (x, y).
+ */
 pixel_data get_pixel(image_p picture, pixel_coord x, pixel_coord y)
 {
 	assert(x < picture->width && y < picture->height);

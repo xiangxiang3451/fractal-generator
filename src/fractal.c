@@ -3,12 +3,18 @@
 #include <stdbool.h>
 #include <math.h>
 
+/*
+ * Clear image to an empty fractal.
+ */
 void empty_fractal(image_p picture)
 {
 	clear_image(picture);
 }
 
-/* --- Mandelbrot --- */
+/*
+ * Generate Mandelbrot set into the given image buffer.
+ * Iteration count (0–255) is used as pixel intensity.
+ */
 void mandelbrot_fractal(image_p picture)
 {
 	assert(picture != NULL);
@@ -17,16 +23,14 @@ void mandelbrot_fractal(image_p picture)
 	pixel_coord H = image_height(picture);
 
 	for (pixel_coord y = 0; y < H; ++y)
-		for (pixel_coord x = 0; x < W; ++x)
-		{
+		for (pixel_coord x = 0; x < W; ++x) {
 			double cx = (x - W / 2.0) / (W / 4.0);
 			double cy = (y - H / 2.0) / (H / 4.0);
 
 			double zx = 0, zy = 0;
 			int iter = 0, max_iter = 255;
 
-			while (zx * zx + zy * zy <= 4 && iter < max_iter)
-			{
+			while (zx * zx + zy * zy <= 4 && iter < max_iter) {
 				double t = zx * zx - zy * zy + cx;
 				zy = 2 * zx * zy + cy;
 				zx = t;
@@ -37,7 +41,10 @@ void mandelbrot_fractal(image_p picture)
 		}
 }
 
-/* --- Sierpinski carpet --- */
+/*
+ * Generate Sierpinski carpet fractal using base-3 space removal rule.
+ * Pixels in removed sub-squares are set to 0, others to 255.
+ */
 void sierpinski_fractal(image_p picture)
 {
 	assert(picture != NULL);
@@ -48,15 +55,12 @@ void sierpinski_fractal(image_p picture)
 	pixel_coord H = image_height(picture);
 
 	for (pixel_coord y = 0; y < H; ++y)
-		for (pixel_coord x = 0; x < W; ++x)
-		{
+		for (pixel_coord x = 0; x < W; ++x) {
 			pixel_coord i = x, j = y;
 			bool hole = false;
 
-			while (i > 0 || j > 0)
-			{
-				if (i % 3 == 1 && j % 3 == 1)
-				{
+			while (i > 0 || j > 0) {
+				if (i % 3 == 1 && j % 3 == 1) {
 					hole = true;
 					break;
 				}
@@ -68,7 +72,10 @@ void sierpinski_fractal(image_p picture)
 		}
 }
 
-/* --- Julia Set --- */
+/*
+ * Generate Julia set for parameter (real_c, imag_c).
+ * Pixel intensity is proportional to escape iteration count (0–255).
+ */
 void julia_fractal(image_p picture, double real_c, double imag_c)
 {
 	assert(picture != NULL);
@@ -77,15 +84,13 @@ void julia_fractal(image_p picture, double real_c, double imag_c)
 	pixel_coord H = image_height(picture);
 
 	for (pixel_coord y = 0; y < H; ++y)
-		for (pixel_coord x = 0; x < W; ++x)
-		{
+		for (pixel_coord x = 0; x < W; ++x) {
 			double zx = (x - W / 2.0) / (W / 4.0);
 			double zy = (y - H / 2.0) / (H / 4.0);
 
 			int iter = 0, max_iter = 255;
 
-			while (zx * zx + zy * zy <= 4 && iter < max_iter)
-			{
+			while (zx * zx + zy * zy <= 4 && iter < max_iter) {
 				double t = zx * zx - zy * zy + real_c;
 				zy = 2 * zx * zy + imag_c;
 				zx = t;
