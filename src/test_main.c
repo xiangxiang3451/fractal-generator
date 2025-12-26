@@ -123,4 +123,35 @@ UTEST(Fractal, EmptyFractal)
 	free_image(img);
 }
 
+
+/*
+* Test basic behavior of Julia set generation
+*/
+UTEST(Fractal, JuliaSetBasic)
+{
+	image_p img = create_image(100, 100);
+
+	/* Classic Julia set parameter */
+	julia_fractal(img, -0.7, 0.27015);
+
+	pixel_data center = get_pixel(img, 50, 50);
+	ASSERT_LE(center, 255);
+	ASSERT_GE(center, 0);
+
+	/* Generate Mandelbrot set for comparison */
+	image_p img2 = create_image(100, 100);
+	mandelbrot_fractal(img2);
+
+	/* Compare center pixel values */
+	pixel_data julia_center = get_pixel(img, 50, 50);
+	pixel_data mandel_center = get_pixel(img2, 50, 50);
+
+	printf("Julia center: %d, Mandelbrot center: %d\n",
+		julia_center, mandel_center);
+
+	free_image(img);
+	free_image(img2);
+}
+
+
 UTEST_MAIN();
